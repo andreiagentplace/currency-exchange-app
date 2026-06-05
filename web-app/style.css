@@ -95,7 +95,7 @@ tbody td.rate-col { font-weight: 600; color: var(--primary); }
 .spinner { display: inline-block; width: 1.2rem; height: 1.2rem; border: 2.5px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.65s linear infinite; flex-shrink: 0; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .error-state { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.85rem 1rem; margin-top: 0.75rem; background: var(--error-bg); border: 1px solid var(--error-border); border-radius: var(--radius-sm); color: var(--error); font-size: 0.875rem; line-height: 1.5; }
-.error-state::before { content: "⚠"; flex-shrink: 0; }
+.error-state::before { content: "\26A0"; flex-shrink: 0; }
 .hidden { display: none !important; }
 .site-footer { border-top: 1px solid var(--border); padding-block: 1.2rem; background: var(--surface); }
 .site-footer p { font-size: 0.78rem; color: var(--text-muted); text-align: center; line-height: 1.6; }
@@ -115,13 +115,13 @@ tbody td.rate-col { font-weight: 600; color: var(--primary); }
   .chart-wrapper { height: 260px; }
   .from-to-row { gap: 0.4rem; }
 }
-/* ── DARK MODE SELECT CHEVRON ───────────────────── */
+/* ── DARK MODE SELECT CHEVRON ───────────────────────── */
 @media (prefers-color-scheme: dark) {
   select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
   }
 }
-/* ── REDUCED MOTION ─────────────────────────────── */
+/* ── REDUCED MOTION ─────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     transition-duration: 0.01ms !important;
