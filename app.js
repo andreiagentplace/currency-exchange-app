@@ -28,7 +28,9 @@ function daysAgo(n) {
 }
 function fmtDate(iso) {
   try {
-    return new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    // Parse as local date to avoid UTC midnight off-by-one for UTC-N timezones
+    const [y, m, d] = iso.split('-').map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
   } catch { return iso; }
 }
 function populateSelect(sel, defaultCode) {
@@ -65,7 +67,7 @@ async function convert() {
   const amount = parseFloat(raw);
   const from = $('from-currency').value;
   const to = $('to-currency').value;
-  if (!raw || isNaN(amount) || amount < 0) { showError('converter','Please enter a valid positive amount.'); return; }
+  if (!raw || isNaN(amount) || amount <= 0) { showError('converter','Please enter a valid positive amount.'); return; }
   if (from === to) {
     const r = $('converter-result');
     r.innerHTML = `<div class="result-main">${fmt4(amount)} ${to}</div><div class="result-formula">Same currency \u2014 no conversion needed.</div>`;
