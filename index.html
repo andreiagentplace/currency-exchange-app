@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FX Exchange — Currency Exchange Rates</title>
+  <meta name="description" content="Live currency converter, exchange rate tables, and 30-day charts for 200+ currencies." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M1 12h22M12 1c-4 4-4 14 0 22M12 1c4 4 4 14 0 22"/>
+        </svg>
+        <span>FX Exchange</span>
+      </div>
+      <p class="tagline">Live rates for 200+ currencies</p>
+    </div>
+  </header>
+
+  <main class="container" id="main">
+
+    <nav class="tabs" role="tablist" aria-label="App sections">
+      <button class="tab active" role="tab" aria-selected="true"
+              aria-controls="panel-converter" data-tab="converter" id="tab-converter">
+        Converter
+      </button>
+      <button class="tab" role="tab" aria-selected="false"
+              aria-controls="panel-table" data-tab="table" id="tab-table">
+        Rate Table
+      </button>
+      <button class="tab" role="tab" aria-selected="false"
+              aria-controls="panel-chart" data-tab="chart" id="tab-chart">
+        30-Day Chart
+      </button>
+    </nav>
+
+    <section id="panel-converter" class="card tab-panel active"
+             role="tabpanel" aria-labelledby="tab-converter">
+      <h2 class="section-title">Currency Converter</h2>
+      <div class="converter-form">
+        <div class="field">
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" value="1" min="0" step="any" placeholder="Enter amount" />
+        </div>
+        <div class="from-to-row">
+          <div class="field">
+            <label for="from-currency">From</label>
+            <select id="from-currency" aria-label="From currency"></select>
+          </div>
+          <button id="swap-btn" class="swap-btn" aria-label="Swap currencies" title="Swap">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 16V4m0 0L3 8m4-4 4 4M17 8v12m0 0 4-4m-4 4-4-4"/>
+            </svg>
+          </button>
+          <div class="field">
+            <label for="to-currency">To</label>
+            <select id="to-currency" aria-label="To currency"></select>
+          </div>
+        </div>
+        <button id="convert-btn" class="btn-primary">Convert</button>
+      </div>
+      <div id="converter-loading" class="loading-state hidden" aria-live="polite">
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Fetching rate…</span>
+      </div>
+      <div id="converter-error" class="error-state hidden" role="alert"></div>
+      <div id="converter-result" class="result-card hidden" aria-live="polite"></div>
+    </section>
+
+    <section id="panel-table" class="card tab-panel hidden"
+             role="tabpanel" aria-labelledby="tab-table">
+      <div class="section-header">
+        <h2 class="section-title">Exchange Rates</h2>
+        <div class="field inline">
+          <label for="table-base">Base</label>
+          <select id="table-base" aria-label="Base currency for rate table"></select>
+        </div>
+      </div>
+      <div id="table-loading" class="loading-state" aria-live="polite">
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Loading rates…</span>
+      </div>
+      <div id="table-error" class="error-state hidden" role="alert"></div>
+      <div id="table-wrapper" class="table-wrapper hidden">
+        <table id="rates-table" aria-label="Exchange rates">
+          <thead>
+            <tr>
+              <th scope="col">Code</th>
+              <th scope="col">Currency</th>
+              <th scope="col" class="rate-col">Rate</th>
+            </tr>
+          </thead>
+          <tbody id="rates-tbody"></tbody>
+        </table>
+      </div>
+      <p id="table-date" class="table-date hidden" aria-live="polite"></p>
+    </section>
+
+    <section id="panel-chart" class="card tab-panel hidden"
+             role="tabpanel" aria-labelledby="tab-chart">
+      <h2 class="section-title">30-Day Rate History</h2>
+      <div class="chart-controls">
+        <div class="field">
+          <label for="chart-from">Base currency</label>
+          <select id="chart-from" aria-label="Base currency for chart"></select>
+        </div>
+        <div class="field">
+          <label for="chart-to">Quote currency</label>
+          <select id="chart-to" aria-label="Quote currency for chart"></select>
+        </div>
+        <button id="chart-btn" class="btn-primary">Load Chart</button>
+      </div>
+      <div id="chart-loading" class="loading-state hidden" aria-live="polite">
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Loading chart data…</span>
+      </div>
+      <div id="chart-error" class="error-state hidden" role="alert"></div>
+      <div id="chart-wrapper" class="chart-wrapper hidden">
+        <canvas id="rate-chart" aria-label="30-day exchange rate chart"></canvas>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        Powered by <a href="https://frankfurter.dev" target="_blank" rel="noopener noreferrer">Frankfurter API</a>
+        &mdash; exchange rates from 84+ central banks. Rates are for informational purposes only.
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
