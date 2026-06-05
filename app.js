@@ -36,7 +36,7 @@ function populateSelect(sel, defaultCode) {
   currencies.forEach(({ iso_code, name }) => {
     const opt = document.createElement('option');
     opt.value = iso_code;
-    opt.textContent = `${iso_code} — ${name}`;
+    opt.textContent = `${iso_code} \u2014 ${name}`;
     if (iso_code === defaultCode) opt.selected = true;
     sel.appendChild(opt);
   });
@@ -68,7 +68,7 @@ async function convert() {
   if (!raw || isNaN(amount) || amount < 0) { showError('converter','Please enter a valid positive amount.'); return; }
   if (from === to) {
     const r = $('converter-result');
-    r.innerHTML = `<div class="result-main">${fmt4(amount)} ${to}</div><div class="result-formula">Same currency — no conversion needed.</div>`;
+    r.innerHTML = `<div class="result-main">${fmt4(amount)} ${to}</div><div class="result-formula">Same currency \u2014 no conversion needed.</div>`;
     hideLoading('converter'); hide($('converter-error')); show(r); return;
   }
   showLoading('converter');
