@@ -57,7 +57,7 @@ function initTabs() {
       tab.classList.add('active');
       tab.setAttribute('aria-selected','true');
       const panel = $(`panel-${tab.dataset.tab}`);
-      if (panel) panel.classList.add('active');
+      if (panel) { panel.classList.remove('hidden'); panel.classList.add('active'); }
     });
   });
 }
